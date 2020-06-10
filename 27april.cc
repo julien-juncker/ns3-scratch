@@ -79,7 +79,7 @@ int TRIALS = 100;
 
 int TEMP_LOST_PACKET = 999;
 
-string const nomFichier("/home/scores_nodes_lost.txt");
+string const nomFichier("/home/pi/Documents/ns-allinone-3.30.1/ns-3.30.1/scratch/scores_nodes_lost.txt");
   
 struct sensor {  
      short xLoc;        // X-location of sensor  
