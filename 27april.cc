@@ -75,7 +75,7 @@ int BASE_STATION_Y_DEFAULT = 300;
 int DEAD_NODE = -2;
 int MESSAGE_LENGTH = 8;
 
-int TRIALS = 100;
+int TRIALS = 1000;
 
 double TEMP_LOST_PACKET = 999;
 
