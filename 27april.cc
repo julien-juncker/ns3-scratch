@@ -563,6 +563,7 @@ while(averageEnergy(network_DIRECT) > .10){
 		for(i = 0; i < NUM_NODES; i++) {  
 		// cycle through all nodes in network and attempt to   
 		// transmit  
+        count_total_round++;
 		if(network_DIRECT[i].bCurrent > 0){  
 		    nodes_transmitting++;  
 			    distance_X = network_DIRECT[i].xLoc - BASE_STATION.xLoc;  
