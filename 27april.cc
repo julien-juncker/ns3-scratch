@@ -556,6 +556,8 @@ for(i = 0; i < NUM_NODES; i++){
   
     printf("\nRunning the Direct Transmission Simulation \n");  
       
+int count_total_round = 0;
+
 while(averageEnergy(network_DIRECT) > .10){  
 //	for(j = 0; j <= TOTAL_ROUNDS; j++){  
 		for(i = 0; i < NUM_NODES; i++) {  
