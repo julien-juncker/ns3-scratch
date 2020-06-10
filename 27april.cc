@@ -77,7 +77,7 @@ int MESSAGE_LENGTH = 8;
 
 int TRIALS = 100;
 
-int TEMP_LOST_PACKET = 0;
+int TEMP_LOST_PACKET = 999;
 
 string const nomFichier("/home/scores_nodes_lost.txt");
   
@@ -471,7 +471,7 @@ for(i = 0; i  < NUM_NODES; i++){
         }  
     }   
 
-    TEMP_LOST_PACKET = failed_transmit;
+    //TEMP_LOST_PACKET = failed_transmit;
 
     // round has completed, increment the round count  
     for(i = 0; i <= NUM_NODES; i++){  
@@ -597,7 +597,7 @@ while(averageEnergy(network_DIRECT) > .10){
 
 		round += 1;  
 }
-
+cout << "LOSTPACKET : " << failed_transmission << endl; 
 TEMP_LOST_PACKET = (failed_transmission / count_total_round)*100;
 /*  
 printf("Rounds where:\n");  
@@ -717,7 +717,7 @@ for(j = 0; j <= TOTAL_ROUNDS; j++){
         round++;  
         nodes_transmitting = 0;  
 } 
-
+cout << "LOSTPACKET : " << failed_transmission << endl; 
 TEMP_LOST_PACKET = (failed_transmission / count_total_round)*100;
 
 /* 
