@@ -13,6 +13,7 @@
 #include <ctype.h>  
 #include <string.h>  
 #include <time.h>  
+#include <ctime>
 #include <iostream>
 #include <fstream>
 #include "hleach.h"
@@ -26,7 +27,7 @@
 
 using namespace std;
 
-int NUM_NODES = 999; //l-281   // number of nodes in the network  
+int NUM_NODES = 30; //l-281   // number of nodes in the network  
                 // default is 50  
 int NETWORK_X = 100;   // X-size of network  
                 // default is 100  
@@ -75,11 +76,12 @@ int BASE_STATION_Y_DEFAULT = 300;
 int DEAD_NODE = -2;
 int MESSAGE_LENGTH = 8;
 
-int TRIALS = 1000;
+int TRIALS = 100;
 
-double TEMP_LOST_PACKET = 999;
+float TEMP_LOST_PACKET = 999;
+float TEMP_LOST_PACKET2 = 998;
 
-string const nomFichier("/home/pi/Documents/ns-allinone-3.30.1/ns-3.30.1/scratch/scores_nodes_lost.txt");
+string const nomFichier("/home/julien/Scores/score_2.txt");
   
 struct sensor {  
      short xLoc;        // X-location of sensor  
@@ -212,20 +214,22 @@ int main(int argc, char * argv[])
   
     for(i = 0; i <= TRIALS; i++){  
         rounds_LEACH = runLeachSimulation(network);  
-        rounds_DIRECT += runDirectSimulation(network);  
+        rounds_DIRECT = runDirectSimulation(network);
+        int rounds_modif =  runmodification(network);
         printf("\n");  
         initializeNetwork(network);  
         printf("The LEACH simulation was able to remain viable for %d rounds\n", rounds_LEACH);  
         printf("The direct transmission simulation was able to remain viable for %d rounds\n", rounds_DIRECT); 
         if(monFlux)
         {
-            monFlux << NUM_NODES << ":" << NETWORK_X << ":" << rounds_LEACH << ":" << rounds_DIRECT << ":" << TEMP_LOST_PACKET  << endl;
+            //monFlux << NUM_NODES << ":" << rounds_modif << ":" << TEMP_LOST_PACKET2  << endl;
+            monFlux << NUM_NODES << ":" << rounds_LEACH << ":" << rounds_modif << ":" << rounds_DIRECT << ":" << TEMP_LOST_PACKET << ":" << TEMP_LOST_PACKET2  << endl; // 2 = modif
         }
         else
         {
             cout << "ERREUR: Impossible d'ouvrir le fichier." << endl;
         }
-        NUM_NODES = NUM_NODES - 1;
+        NUM_NODES = NUM_NODES + 10;
         //NETWORK_X--;
         //NETWORK_Y--;
     } 
@@ -285,7 +289,11 @@ network_LEACH = (struct sensor *) malloc(1000 * sizeof(struct sensor));
 // copy the contents of the passed network to a temporary   
 // network so the same network can be passed to different   
 // protocol simulations  
-  
+
+//const clock_t begin_time = clock();
+
+time_t start, finish;
+time(&start);
   
 for(i = 0; i  < NUM_NODES; i++){  
     network_LEACH[i].bPower = network[i].bPower;  
@@ -471,7 +479,8 @@ for(i = 0; i  < NUM_NODES; i++){
         }  
     }   
 
-    //TEMP_LOST_PACKET = failed_transmit;
+    //TEMP_LOST_PACKET = ((double)failed_transmit/ (double)NUM_NODES)*100;
+
 
     // round has completed, increment the round count  
     for(i = 0; i <= NUM_NODES; i++){  
@@ -484,6 +493,15 @@ for(i = 0; i  < NUM_NODES; i++){
     j = round;
 
 	}  
+    
+    time(&finish);
+    cout << "Time required = " << difftime(finish, start) << " seconds\n";
+
+    //std::cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    //double time_diff = float( clock () - begin_time );
+
+    TEMP_LOST_PACKET = ((double)round * (double)MESSAGE_LENGTH ) / (double)difftime(finish, start);
+    //printf("transmission failed : %f \n", time_diff);
 
       //}
 cout << "LEACH: " << round << endl;
@@ -597,8 +615,8 @@ while(averageEnergy(network_DIRECT) > .10){
 
 		round += 1;  
 }
-cout << "LOSTPACKET : " << failed_transmission << endl; 
-TEMP_LOST_PACKET = (failed_transmission / count_total_round)*100;
+//cout << "LOSTPACKET : " << failed_transmission << endl; 
+//TEMP_LOST_PACKET = ((double)failed_transmission / (double)count_total_round)*100;
 /*  
 printf("Rounds where:\n");  
 printf("0 nodes transmitted: %d \n", range0_count);  
@@ -717,8 +735,8 @@ for(j = 0; j <= TOTAL_ROUNDS; j++){
         round++;  
         nodes_transmitting = 0;  
 } 
-cout << "LOSTPACKET : " << failed_transmission << endl; 
-TEMP_LOST_PACKET = (failed_transmission / count_total_round)*100;
+//cout << "LOSTPACKET : " << failed_transmission << endl; 
+//TEMP_LOST_PACKET = ((double)failed_transmission / (double)count_total_round)*100;
 
 /* 
 printf("Rounds where:\n");  
@@ -1006,7 +1024,8 @@ network_LEACH = (struct sensor *) malloc(1000 * sizeof(struct sensor));
 // network so the same network can be passed to different   
 // protocol simulations  
   
-  
+time_t start, finish;
+time(&start);
   
 for(i = 0; i  <= NUM_NODES; i++){  
     network_LEACH[i].bPower = network[i].bPower;  
@@ -1199,6 +1218,14 @@ while(averageEnergy(network_LEACH) > .10){
     round++;  
   
 }  
+
+    time(&finish);
+    cout << "Time required = " << difftime(finish, start) << " seconds\n";
+
+    //std::cout << float( clock () - begin_time ) /  CLOCKS_PER_SEC;
+    //double time_diff = float( clock () - begin_time );
+
+    TEMP_LOST_PACKET2 = ((double)round * (double)MESSAGE_LENGTH ) / (double)difftime(finish, start);
   
 //free(network_LEACH);  
 printf("\nRunning the LEACH Transmission Simulation \n");  
