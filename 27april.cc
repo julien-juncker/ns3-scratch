@@ -27,7 +27,7 @@
 
 using namespace std;
 
-int NUM_NODES = 30; //l-281   // number of nodes in the network  
+int NUM_NODES = 40; //l-281   // number of nodes in the network  
                 // default is 50  
 int NETWORK_X = 100;   // X-size of network  
                 // default is 100  
