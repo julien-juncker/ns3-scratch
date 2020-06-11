@@ -27,8 +27,9 @@
 
 using namespace std;
 
-int NUM_NODES = 100; //l-281   // number of nodes in the network  
+int NUM_NODES = 1000; //l-281   // number of nodes in the network  
                 // default is 50  
+int malloc_size = 10000; //size of the malloc
 int NETWORK_X = 100;   // X-size of network  
                 // default is 100  
 int NETWORK_Y = 100;   // Y-size of network  
@@ -81,7 +82,7 @@ int TRIALS = 100;
 float TEMP_LOST_PACKET = 999;
 float TEMP_LOST_PACKET2 = 998;
 
-string const nomFichier("/home/pi/Documents/ns-allinone-3.30.1/ns-3.30.1/scratch/score_2.txt");
+string const nomFichier("/home/pi/Documents/ns-allinone-3.30.1/ns-3.30.1/scratch/score_4.txt");
   
 struct sensor {  
      short xLoc;        // X-location of sensor  
@@ -284,7 +285,7 @@ int cluster_head_count = 0;
 double percent_found = 0.0; 
 double mid_value = 0.0;
 //old :: network_LEACH = (struct sensor *) malloc(NUM_NODES * sizeof(struct sensor)); 
-network_LEACH = (struct sensor *) malloc(1000 * sizeof(struct sensor));  
+network_LEACH = (struct sensor *) malloc(malloc_size * sizeof(struct sensor));  
 //network_LEACH = new struct sensor[NUM_NODES];  
 // copy the contents of the passed network to a temporary   
 // network so the same network can be passed to different   
@@ -553,7 +554,7 @@ struct sensor * network_DIRECT;
   
 //printf("Running the Direct Transmission Simulation without NPP.\n");  
   
-network_DIRECT = (struct sensor *) malloc(1000 * sizeof(struct sensor));  
+network_DIRECT = (struct sensor *) malloc(malloc_size * sizeof(struct sensor));  
 /*  
 range1 = NUM_NODES * 0.20;  
 range2 = NUM_NODES * 0.40;  
@@ -671,7 +672,7 @@ struct sensor * network_DIRECT_NPP;
 
 int count_total_round = 0;
   
-network_DIRECT_NPP = (struct sensor *) malloc(1000 * sizeof(struct sensor));  
+network_DIRECT_NPP = (struct sensor *) malloc(malloc_size * sizeof(struct sensor));  
   
 printf("Running the Direct Transmission Simulation with NPP.\n");  
 range1 = NUM_NODES * 0.20;  
@@ -832,7 +833,7 @@ struct sensor * loadConfiguration(char * filename)
     // if file cannot be opened, allocate the memory  
     // based on the default values and return  
     if((fp = fopen(filename, "r")) == NULL){  
-        return (struct sensor *) malloc(1000 *   
+        return (struct sensor *) malloc(malloc_size *   
             sizeof(struct sensor));  
     }  
   
@@ -941,7 +942,7 @@ struct sensor * loadConfiguration(char * filename)
         exit(1);  
     }  
       
-    return (struct sensor *) malloc(1000 * sizeof(struct sensor));   
+    return (struct sensor *) malloc(malloc_size * sizeof(struct sensor));   
   
 }           // end loadConfiguration function  
   
@@ -1018,7 +1019,7 @@ double random_number;
 int cluster_head_count = 0;  
 double percent_found = 0.0; 
 //old :: network_LEACH = (struct sensor *) malloc(NUM_NODES * sizeof(struct sensor)); 
-network_LEACH = (struct sensor *) malloc(1000 * sizeof(struct sensor));  
+network_LEACH = (struct sensor *) malloc(malloc_size * sizeof(struct sensor));  
 //network_LEACH = new struct sensor[NUM_NODES];  
 // copy the contents of the passed network to a temporary   
 // network so the same network can be passed to different   
