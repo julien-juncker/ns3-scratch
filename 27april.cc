@@ -27,7 +27,7 @@
 
 using namespace std;
 
-int NUM_NODES = 40; //l-281   // number of nodes in the network  
+int NUM_NODES = 100; //l-281   // number of nodes in the network  
                 // default is 50  
 int NETWORK_X = 100;   // X-size of network  
                 // default is 100  
@@ -81,7 +81,7 @@ int TRIALS = 100;
 float TEMP_LOST_PACKET = 999;
 float TEMP_LOST_PACKET2 = 998;
 
-string const nomFichier("/home/julien/Scores/score_2.txt");
+string const nomFichier("/home/pi/Documents/ns-allinone-3.30.1/ns-3.30.1/scratch/score_2.txt");
   
 struct sensor {  
      short xLoc;        // X-location of sensor  
